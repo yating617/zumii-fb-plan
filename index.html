@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小路 Zumii · 首月粉專發文行事曆</title>
+</head>
+<body>
+<style>
+  :root{
+    /* palette — LINE 綠為主軸，偏暖的中性色，非純灰 */
+    --ink:#1c2620;          /* 近黑帶綠 */
+    --ink-soft:#41504a;
+    --paper:#f6f4ee;        /* 暖白 */
+    --card:#ffffff;
+    --line:#e2ded3;         /* 暖灰線 */
+    --green:#06c755;        /* LINE 綠 */
+    --green-deep:#04963f;
+    --green-wash:#e8f8ee;
+    --amber:#e8a13a;        /* 借勢/節慶 */
+    --amber-wash:#fbf1df;
+    --violet:#7b6bd6;       /* 記憶/情感 */
+    --violet-wash:#eeebfa;
+    --sky:#3a95c9;          /* 功能開箱 */
+    --sky-wash:#e4f1f8;
+    --rose:#d96a8a;         /* 互動社群 */
+    --rose-wash:#f9e8ee;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.7;font-size:16px;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+  /* header */
+  header{padding:56px 0 34px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--green-deep);font-weight:700;margin:0 0 14px}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.15;margin:0 0 16px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+  h1 .accent{color:var(--green)}
+  .lede{font-size:clamp(16px,2.2vw,19px);color:var(--ink-soft);max-width:60ch;margin:0}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{font-size:13px;font-weight:600;padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+  .chip b{color:var(--green-deep)}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:30px 0 4px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .legend .lg{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+  .dot{width:11px;height:11px;border-radius:3px;flex:none}
+  .d-green{background:var(--green)} .d-sky{background:var(--sky)} .d-violet{background:var(--violet)}
+  .d-amber{background:var(--amber)} .d-rose{background:var(--rose)}
+
+  /* section titles */
+  h2.week{font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin:44px 0 4px;display:flex;align-items:center;gap:12px}
+  h2.week::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* post card */
+  .grid{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+  .post{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;border-left:5px solid var(--pillar,var(--green))}
+  .post.p-green{--pillar:var(--green);--wash:var(--green-wash)}
+  .post.p-sky{--pillar:var(--sky);--wash:var(--sky-wash)}
+  .post.p-violet{--pillar:var(--violet);--wash:var(--violet-wash)}
+  .post.p-amber{--pillar:var(--amber);--wash:var(--amber-wash)}
+  .post.p-rose{--pillar:var(--rose);--wash:var(--rose-wash)}
+  .post summary{list-style:none;cursor:pointer;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:center}
+  .post summary::-webkit-details-marker{display:none}
+  .num{grid-row:1/3;font-size:26px;font-weight:800;color:var(--pillar);font-variant-numeric:tabular-nums;width:44px}
+  .p-title{font-size:17px;font-weight:700;margin:0;line-height:1.35}
+  .p-sub{grid-column:2;font-size:13.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--wash);color:var(--pillar)}
+  .day{font-weight:700;color:var(--ink);white-space:nowrap}
+  .caret{grid-row:1/3;color:var(--ink-soft);transition:transform .2s;font-size:15px}
+  .post[open] .caret{transform:rotate(90deg)}
+
+  .body{padding:0 22px 24px 22px}
+  .body .inner{border-top:1px dashed var(--line);padding-top:18px}
+  .label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--pillar);margin:0 0 8px}
+  .copy{white-space:pre-wrap;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.75;margin:0 0 18px}
+  .copy .cta{color:var(--green-deep);font-weight:700}
+
+  /* chat mock */
+  .chat{background:#8fb8d8;background:linear-gradient(180deg,#a9cae6,#8fb8d8);border-radius:12px;padding:16px 14px;margin:0 0 18px;display:flex;flex-direction:column;gap:9px}
+  .bub{max-width:78%;padding:9px 13px;border-radius:15px;font-size:14px;line-height:1.55;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+  .bub.me{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
+  .bub.z{align-self:flex-start;background:#fff;color:var(--ink);border-bottom-left-radius:4px}
+  .bub .who{display:block;font-size:11px;opacity:.7;margin-bottom:2px;font-weight:700}
+
+  .why{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-soft);background:var(--wash);border-radius:10px;padding:11px 14px}
+  .why b{color:var(--pillar)}
+  .assets{font-size:13px;color:var(--ink-soft);margin:12px 0 0;display:flex;gap:8px;flex-wrap:wrap}
+  .assets .a{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-weight:600}
+
+  /* playbook */
+  .playbook{margin:48px 0 10px;background:var(--ink);color:#eee;border-radius:18px;padding:30px 28px}
+  .playbook h3{margin:0 0 18px;font-size:20px;color:#fff;font-weight:800}
+  .pb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 26px}
+  .pb-grid h4{margin:0 0 5px;font-size:14px;color:var(--green);font-weight:700;letter-spacing:.03em}
+  .pb-grid p{margin:0;font-size:14px;color:#c7cec9;line-height:1.6}
+
+  footer{padding:30px 0 60px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+
+  @media(max-width:560px){
+    .post summary{grid-template-columns:auto 1fr auto;padding:15px 16px}
+    .num{font-size:21px;width:34px}
+    .body{padding:0 16px 20px}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">FB 粉專內容企劃 · 首月</p>
+    <h1>小路 <span class="accent">Zumii</span> 的生活實驗室<br>第一個月發文行事曆</h1>
+    <p class="lede">18 篇貼文，橫跨 4 週。每一篇都扣回小路的兩道護城河 —— <b>在 LINE 裡零學習成本</b>、<b>有長期記憶</b>。點開任一篇即可看到完整文案、貼文素材與策略註記，可直接複製使用。</p>
+    <div class="meta-row">
+      <span class="chip">📅 <b>4 週 / 18 篇</b></span>
+      <span class="chip">🎯 每篇皆含 <b>加 LINE 好友 CTA</b></span>
+      <span class="chip">⏰ 建議時段 <b>午休 12–13 / 睡前 20–22</b></span>
+      <span class="chip">🌱 頻率 <b>每週 4–5 篇</b></span>
+    </div>
+  </header>
+
+  <div class="legend" aria-label="內容支柱色彩對照">
+    <span class="lg"><span class="dot d-green"></span>生活情境示範</span>
+    <span class="lg"><span class="dot d-sky"></span>隱藏功能開箱</span>
+    <span class="lg"><span class="dot d-violet"></span>有記憶的感動</span>
+    <span class="lg"><span class="dot d-amber"></span>節慶 / 借勢</span>
+    <span class="lg"><span class="dot d-rose"></span>互動 / 社群</span>
+  </div>
+
+  <!-- ============ WEEK 1 ============ -->
+  <h2 class="week">第 1 週 · 開帳暖身，把人設立起來</h2>
+  <div class="grid">
+
+    <details class="post p-green" open>
+      <summary>
+        <span class="num">01</span>
+        <p class="p-title">你好，我是小路</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="day">週一 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">嗨，我是小路 👋
+
+你不用下載任何 App，也不用學怎麼操作 ——
+在 LINE 加我好友，我就開始幫你打理生活。
+
+訂高鐵、記帳、查股價、生成一份簡報，
+甚至記得「你討厭香菜」這種小事，我都放在心上。
+
+這裡是我的生活實驗室，
+每天分享我怎麼幫大家把日子過得輕鬆一點。
+
+不用換 App、不用學，加好友就能用，而且免費開始 🌱
+<span class="cta">👉 現在加我當朋友：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>開帳第一篇先立人設，把「零門檻＋有記憶」兩大賣點一次講清楚。用「討厭香菜」這種具體小事，比講「AI 記憶功能」更有溫度。</div></div>
+        <div class="assets"><span class="a">📷 小路品牌主視覺 / 頭像</span><span class="a">🔗 CTA 連結放留言區置頂</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">02</span>
+        <p class="p-title">下班好累，晚餐吃什麼？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="day">週三 · 12:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖（貼文可做成圖卡）</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>下班好累，晚餐不知道吃什麼 😩</div>
+          <div class="bub z"><span class="who">小路</span>你上次說想吃日式～附近這 3 家評價都 4.5 星以上，而且都不放香菜（我記得你不吃）。要我幫你訂位嗎？</div>
+          <div class="bub me"><span class="who">你</span>就第一家，7 點兩位</div>
+          <div class="bub z"><span class="who">小路</span>訂好囉 ✅ 7:00、2 位，位置幫你選了靠窗。悠著點吃，辛苦了 🍱</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">選擇障礙的晚上，最需要一個懂你的人。
+
+小路不只是搜尋餐廳 —— 它記得你的口味、你的禁忌，
+連「靠窗」這種偏好都替你想到了。
+
+這就是「有記憶」和「一般 AI」的差別。
+
+<span class="cta">👉 在 LINE 加小路，讓它記住你：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>用真實對話截圖是最有說服力的內容。刻意呼應第 1 篇的「香菜」，讓粉絲感覺小路真的一以貫之地記得。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖圖卡</span><span class="a">💬 CTA 放留言</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">03</span>
+        <p class="p-title">你最想丟給 AI 的一件家事？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動社群</span><span class="day">週五 · 21:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">來玩個問答 🙋
+
+如果有一個 AI 助理，可以幫你搞定「一件」生活瑣事，
+你最想丟給它什麼？
+
+☐ 記帳＆月底自動算清楚
+☐ 訂票、訂位、排行程
+☐ 提醒長輩吃藥、繳費
+☐ 其他（留言告訴我！）
+
+留言最多人想要的那一項，
+我下週就拍一支示範，教你小路怎麼做 👇</div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>互動貼文衝留言、養觸及，同時「順便」把小路的功能清單植入。承諾下週示範，替後續內容鋪路，也給粉絲回訪理由。</div></div>
+        <div class="assets"><span class="a">📷 四選項圖卡</span><span class="a">📌 主動回覆每則留言</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">04</span>
+        <p class="p-title">隱藏技能：記帳不用打開任何 App</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="day">週日 · 11:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>午餐 120 咖啡 65</div>
+          <div class="bub z"><span class="who">小路</span>記好了 ☕ 今天目前花了 185 元。這個月餐飲類累積 3,240，比上個月同期少 8%，有進步喔！</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">【小路隱藏技能 #1｜記帳】
+
+記帳 App 下載了三個、每個用不到三天？
+小路把記帳變成「打一句話」而已。
+
+隨手在 LINE 打「午餐 120」，它就記好，
+月底自動幫你統計、跟上個月比較。
+
+不用開 App、不用分類、不用月底補帳。
+懶人記帳法，這才叫真的能持續。
+
+<span class="cta">👉 免費開始用：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>「隱藏技能」系列化，每篇教一招、建立追蹤習慣。主打「打一句話」直接對比市面記帳 App 的麻煩，痛點極準。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖</span><span class="a">🏷️ 建立 #小路隱藏技能 系列標籤</span></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 2 ============ -->
+  <h2 class="week">第 2 週 · 展開功能廣度，秀出差異化</h2>
+  <div class="grid">
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">05</span>
+        <p class="p-title">隔了半年，它還記得你</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動</span><span class="day">週一 · 21:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">半年前，你隨口跟小路提過一句：
+「我媽對海鮮過敏。」
+
+半年後，你要訂家庭聚餐的餐廳，
+小路主動說：「這家有海鮮鍋，要幫你備註不要給媽媽吃嗎？」
+
+——你早就忘了自己說過，但它記得。
+
+大部分的 AI 聊完就忘。
+小路不一樣，它把「你」放在心上，愈用愈懂你。
+
+<span class="cta">👉 養一個愈來愈懂你的助理：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>本週主打差異化核心「長期記憶」。用情感故事而非規格，把「記憶」轉譯成「被在乎的感覺」，這是最難被競品複製的賣點。</div></div>
+        <div class="assets"><span class="a">📷 情境情感圖 / 文字卡</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">06</span>
+        <p class="p-title">隱藏技能：一句話查股價＋新聞</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="day">週三 · 12:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>台積電現在多少</div>
+          <div class="bub z"><span class="who">小路</span>台積電 1,085，今天 +1.2% 📈 幫你抓了三則今日重點新聞摘要，要看嗎？順便：你上次問的美元匯率現在 31.8。</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">【小路隱藏技能 #2｜股市 & 匯率】
+
+不用切到看盤 App、不用開瀏覽器 Google。
+在 LINE 打一句「台積電多少」，
+即時股價、新聞摘要、匯率換算，一次給你。
+
+它還記得你常看哪幾檔，主動幫你留意。
+
+<span class="cta">👉 免費開始用：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>延續系列，同時再次埋「它記得你常看哪幾檔」的記憶點——每個功能篇都順手強化差異化。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖</span><span class="a">🏷️ #小路隱藏技能</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">07</span>
+        <p class="p-title">週五晚上，幫全家搞定週末</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="day">週五 · 20:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>週末想帶小孩出去玩，天氣好的話</div>
+          <div class="bub z"><span class="who">小路</span>週六台北晴、25°C ☀️ 適合戶外。我列了 3 個親子景點，都在捷運沿線。要幫你查其中一個的門票和開放時間嗎？</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">週五晚上最幸福的事：
+把「規劃週末」這件事，整包丟給小路。
+
+天氣、景點、門票、交通，它一次幫你想好。
+你只要負責——陪家人玩得開心就好。
+
+生活裡的雜事交給小路，
+把時間留給真正重要的人 💚
+
+<span class="cta">👉 加 LINE 好友，週末不再滑手機找攻略：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>週五晚上發「規劃週末」情境，貼合當下心境（時機行銷）。訴求「把時間留給家人」，把工具價值上升到情感層次。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">08</span>
+        <p class="p-title">幫小路取個綽號？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動社群</span><span class="day">週六 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">一個問題想聽聽大家的 🥺
+
+如果小路是你 LINE 裡的一個朋友，
+你會怎麼稱呼它？
+
+是「小助理」、「路路」、還是⋯⋯
+你都怎麼跟小路說話的？留言分享你的暱稱 👇
+
+（偷偷說：小路真的會記住你幫它取的名字喔）</div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>擬人化互動拉近距離，門檻極低好留言。結尾再植入「會記住名字」的記憶賣點，一石二鳥。</div></div>
+        <div class="assets"><span class="a">📷 可愛提問圖卡</span><span class="a">📌 積極回覆互動</span></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 3 ============ -->
+  <h2 class="week">第 3 週 · 場景深化，打進家庭與工作群組</h2>
+  <div class="grid">
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">09</span>
+        <p class="p-title">把小路拉進家庭群組</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="day">週一 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖（家庭群組）</p>
+        <div class="chat">
+          <div class="bub z"><span class="who">小路 · 家庭群</span>提醒一下～媽媽的血壓藥該吃囉 💊（每天 09:00）</div>
+          <div class="bub me"><span class="who">你</span>謝謝小路，順便幫我查爸的回診是哪天</div>
+          <div class="bub z"><span class="who">小路</span>爸爸下次回診是 7/18（六）上午。我幫你設前一天提醒好嗎？</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">最孝順的一步，是把小路拉進家庭群組。
+
+它會幫忙提醒長輩吃藥、記得回診日、
+甚至幫看不懂智慧型手機的爸媽查資訊、訂票。
+
+你不用隨時盯著，
+小路替全家把生活的細節都接住 🤍
+
+<span class="cta">👉 加好友、拉進家庭群：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>切進「家庭群組」場景，擴大使用者不只是自己、還有孝親情感（在台灣極有共鳴）。也帶出「群組協作」的產品差異。</div></div>
+        <div class="assets"><span class="a">📷 群組對話截圖</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">10</span>
+        <p class="p-title">隱藏技能：5 分鐘生一份簡報</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="day">週三 · 12:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>幫我做一份「第二季銷售回顧」的簡報大綱，5 頁</div>
+          <div class="bub z"><span class="who">小路</span>好，5 頁架構抓好了：封面／季度亮點／數據對比／問題與對策／下季目標。要我直接生成可下載的檔案嗎？</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">【小路隱藏技能 #3｜文件 & 簡報】
+
+明天要開會、簡報還沒生出來？
+跟小路說一句主題，它幫你把架構、內容、
+甚至可下載的檔案都準備好。
+
+做圖、寫文件、生簡報 —— 上班族的救火隊。
+
+<span class="cta">👉 免費開始用：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>切入「工作群組 / 上班族」客群，展示生產力面向。功能篇維持系列節奏，觸及不同需求的受眾。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖 / 簡報縮圖</span><span class="a">🏷️ #小路隱藏技能</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">11</span>
+        <p class="p-title">它記得你不是為了推銷</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動</span><span class="day">週五 · 21:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">你有沒有過這種感覺——
+跟客服講了三次的事，第四次還要從頭再講一遍？
+
+小路不會。
+
+你告訴它一次的事，它就記住。
+你的生日、你的偏好、你正在煩惱的事，
+下次它自然而然地接續，不用你重來。
+
+被記得，是一種很小、卻很暖的體貼。
+
+<span class="cta">👉 讓小路開始記得你：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>用「反覆跟客服重講」的共同痛點，反襯記憶的價值。情感訴求收束一週，不硬推功能，養品牌好感。</div></div>
+        <div class="assets"><span class="a">📷 純文字情感卡</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">12</span>
+        <p class="p-title">徵集：小路幫你做過最貼心的事</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動社群 · UGC</span><span class="day">週日 · 11:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">📣 徵集你的「小路時刻」
+
+小路幫你做過哪一件最貼心、最省事、
+或最讓你會心一笑的事？
+
+留言分享（歡迎附對話截圖），
+我們會挑幾則精彩的，做成貼文分享給大家 ✨
+
+——最真實的推薦，來自你們。</div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>啟動 UGC，收集真實用戶對話當未來素材，形成內容飛輪。用戶截圖是最有公信力的社會證明。</div></div>
+        <div class="assets"><span class="a">📷 徵集主視覺</span><span class="a">♻️ 收集素材供下月使用</span></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 4 ============ -->
+  <h2 class="week">第 4 週 · 收斂轉換，臨門一腳</h2>
+  <div class="grid">
+
+    <details class="post p-amber">
+      <summary>
+        <span class="num">13</span>
+        <p class="p-title">月底了，你的錢花去哪了？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">節慶借勢 · 月底</span><span class="day">週一 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>這個月到底花了多少</div>
+          <div class="bub z"><span class="who">小路</span>這個月總支出 24,180 元 💰 最大宗是餐飲 8,900（37%）。比上月多花了 2,300，多在外送。要我下個月幫你設外送預算提醒嗎？</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">又到月底了，錢包卻不知道發生什麼事？🫠
+
+如果你這個月有跟小路隨手記帳，
+現在只要問一句「這個月花多少」，
+它馬上給你完整統計、跟上月比較、還會提醒你哪裡超支。
+
+下個月想更省？
+從「今天開始隨手跟小路記一筆」就好。
+
+<span class="cta">👉 免費開始，月底不再一頭霧水：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>借「月底」時機點做記帳功能的臨門收割，呼應第 4 篇的記帳埋點。CTA 強調「今天開始」降低拖延。</div></div>
+        <div class="assets"><span class="a">📷 月結統計圖卡</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">14</span>
+        <p class="p-title">隱藏技能：塔羅、星座、每日靈修</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="day">週三 · 21:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">對話截圖</p>
+        <div class="chat">
+          <div class="bub me"><span class="who">你</span>今天天秤座運勢如何</div>
+          <div class="bub z"><span class="who">小路</span>天秤今天人際運很旺 ✨ 適合把想講的話說出口。抽一張今日塔羅給你參考嗎？🔮</div>
+        </div>
+        <p class="label">貼文文案</p>
+        <div class="copy">【小路隱藏技能 #4｜命理 & 每日儀式感】
+
+每天早上，讓小路陪你開啟一天：
+星座運勢、一張塔羅、一句每日靈修。
+
+理性做事、感性生活，
+小路兩邊都陪你 🌙
+
+（是不是很難想像，同一個助理早上幫你抽塔羅、
+下午幫你做簡報？這就是小路。）
+
+<span class="cta">👉 免費開始用：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>展示「軟性生活面」功能，觸及對命理有興趣的族群（互動率通常很高）。結尾對比「早上塔羅、下午簡報」凸顯小路的全能。</div></div>
+        <div class="assets"><span class="a">📷 對話截圖</span><span class="a">🏷️ #小路隱藏技能</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">15</span>
+        <p class="p-title">加好友只要 30 秒，這是完整教學</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境 · 導流</span><span class="day">週四 · 12:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">很多人問：「怎麼開始用小路？」
+答案是——真的只要 30 秒 ⏱️
+
+1️⃣ 點連結 / 掃 QR Code
+2️⃣ 在 LINE 按「加入好友」
+3️⃣ 打聲招呼，跟它說你的名字
+
+就這樣，不用下載、不用註冊帳號、不用學操作。
+它會從第一句話開始，慢慢記住你。
+
+免費開始，今天就試試看 👇
+<span class="cta">👉 https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>臨門一腳的「How to start」教學，把最後的行動障礙拆到最低（強調 30 秒、免下載、免註冊）。適合置頂 & 拿去投廣告。</div></div>
+        <div class="assets"><span class="a">📷 三步驟圖卡 + QR Code</span><span class="a">📌 建議設為粉專置頂</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">16</span>
+        <p class="p-title">用戶真實回饋：「它比我還記得我自己」</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動 · 見證</span><span class="day">週五 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">「有一天我忘了自己上週說要買的東西，
+小路提醒我：『你不是說要幫女兒買生日禮物嗎？剩 3 天囉。』
+
+那一刻我愣住——它比我還記得我自己的生活。」
+
+—— 這是一位小路用戶的真實回饋 💬
+
+我們做的不是一個更聰明的 AI，
+而是一個更懂你、真的把你的事放在心上的夥伴。
+
+<span class="cta">👉 換你體驗被記得的感覺：https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>用戶見證（可由第 12 篇 UGC 徵集而來）是轉換臨門的強力社會證明。收束品牌訊息「懂你的夥伴」，為月末收尾定調。</div></div>
+        <div class="assets"><span class="a">📷 引言式見證卡</span><span class="a">♻️ 素材來自 #12 UGC</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">17</span>
+        <p class="p-title">投票：下個月想看小路示範什麼？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動社群</span><span class="day">週六 · 20:30</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">陪伴大家一個月啦，謝謝你們 🙏
+
+下個月的「小路實驗室」，你最想看它示範什麼？
+留言 or 用表情投票 👇
+
+😍 更多真實對話開箱
+🧠 記憶功能的深度玩法
+💼 上班族生產力技巧
+🔮 命理 & 生活儀式感
+
+你們想看的，我們就拍給你看！</div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>月末互動貼文兼「次月內容選題」問卷，讓粉絲有參與感，也替下月企劃收集第一手方向。</div></div>
+        <div class="assets"><span class="a">📷 四選項投票圖卡</span></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">18</span>
+        <p class="p-title">這個月，小路陪你做了這些事</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境 · 收尾</span><span class="day">週日 · 20:00</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">貼文文案</p>
+        <div class="copy">回顧這一個月，小路的生活實驗室聊了好多 🌱
+
+從記帳、訂位、查股價，
+到記得你不吃香菜、提醒媽媽吃藥⋯⋯
+
+我們始終相信一件事：
+好的 AI，不是功能最多的那個，
+而是最懂你、最能替你把生活過好的那個。
+
+如果你還沒加小路當朋友，
+現在就是最好的時候——不用下載、免費開始。
+
+下個月，我們繼續陪你把日子過得更輕鬆 🤍
+<span class="cta">👉 https://zumii.ai</span></div>
+        <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>月末總結，把整月觸及過的功能與情感訊息收攏一次，強化品牌核心主張，並自然地再下一次 CTA。為次月延續鋪陳。</div></div>
+        <div class="assets"><span class="a">📷 月度回顧拼貼</span></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ PLAYBOOK ============ -->
+  <section class="playbook">
+    <h3>🎯 執行小抄 · 貼上牆的四條原則</h3>
+    <div class="pb-grid">
+      <div>
+        <h4>永遠講情境，不講規格</h4>
+        <p>沒人為「AI 繪圖」心動，但會為「幫我記得媽媽的用藥時間」心動。每篇都從一個生活痛點切入。</p>
+      </div>
+      <div>
+        <h4>每篇都扣兩道護城河</h4>
+        <p>① 在 LINE 裡、零學習成本　② 有長期記憶。這是競品最難複製的兩點，篇篇至少扣一個。</p>
+      </div>
+      <div>
+        <h4>CTA 連結放留言區</h4>
+        <p>FB 本文放外連會壓觸及。連結放留言並置頂，本文只保留「👉 加好友」的行動指引。</p>
+      </div>
+      <div>
+        <h4>追加好友數，不追讚數</h4>
+        <p>讚數是虛榮指標。用帶參數的專屬連結，追蹤每篇實際帶進多少 LINE 加好友——那才是生意。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    小路 Zumii · 首月粉專內容企劃　|　18 篇 / 4 週　|　時段與頻率為建議值，請依實際互動數據滾動調整。文案可直接複製，對話截圖建議做成統一風格的圖卡以強化品牌識別。
+  </footer>
+</div>
+</body></html>
