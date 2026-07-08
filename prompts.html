@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小路 Zumii · 18 篇配圖 AI 生成指令集</title>
+<style>
+  :root{
+    --ink:#1c2620;
+    --ink-soft:#41504a;
+    --paper:#f6f4ee;
+    --card:#ffffff;
+    --line:#e2ded3;
+    --green:#06c755;
+    --green-deep:#04963f;
+    --green-wash:#e8f8ee;
+    --amber:#e8a13a;
+    --amber-wash:#fbf1df;
+    --violet:#7b6bd6;
+    --violet-wash:#eeebfa;
+    --sky:#3a95c9;
+    --sky-wash:#e4f1f8;
+    --rose:#d96a8a;
+    --rose-wash:#f9e8ee;
+    --warn:#c2571f;
+    --warn-wash:#fdeee3;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.7;font-size:16px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+
+  /* nav */
+  .nav{padding:18px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .nav a{text-decoration:none;font-size:13.5px;font-weight:600;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft)}
+  .nav a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .nav a:hover:not(.on){border-color:var(--green);color:var(--green-deep)}
+  .nav a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+  header{padding:44px 0 32px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--green-deep);font-weight:700;margin:0 0 14px}
+  h1{font-size:clamp(28px,4.6vw,42px);line-height:1.15;margin:0 0 16px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+  h1 .accent{color:var(--green)}
+  .lede{font-size:clamp(15.5px,2.1vw,18px);color:var(--ink-soft);max-width:62ch;margin:0}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .chip{font-size:13px;font-weight:600;padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+  .chip b{color:var(--green-deep)}
+
+  /* callout */
+  .callout{margin:28px 0 0;background:var(--warn-wash);border:1px solid #f0cdb0;border-left:5px solid var(--warn);border-radius:14px;padding:18px 20px}
+  .callout h3{margin:0 0 8px;font-size:15.5px;color:var(--warn);font-weight:800;display:flex;align-items:center;gap:8px}
+  .callout p{margin:0 0 8px;font-size:14.5px;color:#6b4227;line-height:1.68}
+  .callout p:last-child{margin-bottom:0}
+  .callout b{color:#8a4a1d}
+
+  /* style prefix block */
+  .prefix{margin:34px 0 0;background:var(--ink);color:#e8ece9;border-radius:18px;padding:26px 26px 22px}
+  .prefix h2{margin:0 0 6px;font-size:19px;color:#fff;font-weight:800}
+  .prefix .sub{margin:0 0 18px;font-size:14px;color:#a6b0aa;line-height:1.6}
+  .prefix .sub b{color:var(--green)}
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+  .sw{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#c7cec9;font-variant-numeric:tabular-nums}
+  .sw i{width:22px;height:22px;border-radius:6px;display:block;border:1px solid rgba(255,255,255,.18)}
+
+  /* copy box */
+  .cbox{position:relative;background:#101713;border:1px solid #2c3a33;border-radius:12px;padding:16px 52px 16px 18px;font-size:14.5px;line-height:1.72;color:#dfe6e2;white-space:pre-wrap;word-break:break-word}
+  .copybtn{position:absolute;top:10px;right:10px;background:#243029;border:1px solid #3b4d43;color:#b9c4bd;border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .copybtn:hover{background:var(--green);border-color:var(--green);color:#fff}
+  .copybtn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .copybtn.done{background:var(--green);border-color:var(--green);color:#fff}
+
+  /* light copy box (inside cards) */
+  .lbox{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 52px 15px 17px;font-size:14.7px;line-height:1.75;white-space:pre-wrap;word-break:break-word;margin:0}
+  .lbox .copybtn{background:var(--card);border-color:var(--line);color:var(--ink-soft)}
+  .lbox .copybtn:hover,.lbox .copybtn.done{background:var(--green);border-color:var(--green);color:#fff}
+
+  h2.week{font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+  h2.week::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .grid{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+  .post{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;border-left:5px solid var(--pillar,var(--green))}
+  .post.p-green{--pillar:var(--green);--wash:var(--green-wash)}
+  .post.p-sky{--pillar:var(--sky);--wash:var(--sky-wash)}
+  .post.p-violet{--pillar:var(--violet);--wash:var(--violet-wash)}
+  .post.p-amber{--pillar:var(--amber);--wash:var(--amber-wash)}
+  .post.p-rose{--pillar:var(--rose);--wash:var(--rose-wash)}
+  .post summary{list-style:none;cursor:pointer;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:center}
+  .post summary::-webkit-details-marker{display:none}
+  .post summary:focus-visible{outline:2px solid var(--green);outline-offset:-3px}
+  .num{grid-row:1/3;font-size:26px;font-weight:800;color:var(--pillar);font-variant-numeric:tabular-nums;width:44px}
+  .p-title{font-size:17px;font-weight:700;margin:0;line-height:1.35}
+  .p-sub{grid-column:2;font-size:13.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--wash);color:var(--pillar)}
+  .tag.t-warn{background:var(--warn-wash);color:var(--warn)}
+  .caret{grid-row:1/3;color:var(--ink-soft);transition:transform .2s;font-size:15px}
+  .post[open] .caret{transform:rotate(90deg)}
+
+  .body{padding:0 22px 24px 22px}
+  .body .inner{border-top:1px dashed var(--line);padding-top:18px}
+  .label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--pillar);margin:0 0 8px}
+  .label.mt{margin-top:18px}
+  .note{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-soft);background:var(--wash);border-radius:10px;padding:11px 14px;margin-top:16px}
+  .note b{color:var(--pillar)}
+  .note.warn{background:var(--warn-wash);color:#6b4227}
+  .note.warn b{color:var(--warn)}
+
+  /* tips */
+  .tips{margin:48px 0 10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 26px}
+  .tips h3{margin:0 0 20px;font-size:19px;font-weight:800}
+  .tips ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:14px}
+  .tips li{font-size:14.7px;color:var(--ink-soft);line-height:1.7;padding-left:4px}
+  .tips li b{color:var(--ink)}
+  .tips code{background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  footer{padding:30px 0 60px;color:var(--ink-soft);font-size:13px;border-top:1px solid var(--line);margin-top:44px}
+  footer a{color:var(--green-deep);font-weight:600}
+
+  @media(max-width:560px){
+    .post summary{padding:15px 16px}
+    .num{font-size:21px;width:34px}
+    .body{padding:0 16px 20px}
+    .prefix{padding:22px 18px}
+    .cbox,.lbox{padding-right:16px;padding-top:44px}
+    .copybtn{top:8px;right:8px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav" aria-label="頁面切換">
+    <a href="index.html">📅 首月發文行事曆</a>
+    <a href="prompts.html" class="on" aria-current="page">🎨 配圖 AI 指令集</a>
+  </nav>
+
+  <header>
+    <p class="eyebrow">配圖生成指令 · ChatGPT / DALL·E</p>
+    <h1>18 篇貼文的<br><span class="accent">AI 配圖</span>生成指令集</h1>
+    <p class="lede">每一篇都附完整中文情境指令，可直接複製貼進 ChatGPT。全系列共用同一組「品牌風格前綴」，確保 18 張圖看起來像同一個系列，而不是 18 種畫風。</p>
+    <div class="meta-row">
+      <span class="chip">🎨 <b>18 條指令</b></span>
+      <span class="chip">📐 建議尺寸 <b>1:1 正方形</b></span>
+      <span class="chip">🤖 適用 <b>ChatGPT / DALL·E</b></span>
+      <span class="chip">✍️ 文字一律 <b>後製疊加</b></span>
+    </div>
+
+    <div class="callout">
+      <h3>⚠️ 開始前一定要知道的兩件事</h3>
+      <p><b>1. 不要讓 AI 生中文字。</b>DALL·E 畫中文幾乎必定亂碼。所有指令都刻意要求「畫面中不要有文字、留白多」，標題文案請一律用 Canva 後製疊上去。</p>
+      <p><b>2. 對話截圖類貼文（②⑥⑦⑨⑩⑬⑭）不要請 AI 畫 LINE 介面。</b>畫出來的聊天泡泡比例、綠色、字體都不對，一眼就假。這 7 篇我給的是「情境背景圖」指令 —— 對話框請用真手機截圖，或用 Canva 拉一張乾淨圖卡疊上去，更真實可信。</p>
+    </div>
+  </header>
+
+  <!-- STYLE PREFIX -->
+  <section class="prefix">
+    <h2>🧬 品牌風格前綴（每一張都要加在最前面）</h2>
+    <p class="sub">這是讓 18 張圖「長得像一家人」的關鍵。<b>每次生圖都先貼這段，再接下方各篇的情境描述。</b></p>
+    <div class="swatches" aria-label="品牌色票">
+      <span class="sw"><i style="background:#06c755"></i>LINE 綠 #06C755</span>
+      <span class="sw"><i style="background:#f6f4ee"></i>暖米白 #F6F4EE</span>
+      <span class="sw"><i style="background:#1c2620"></i>近黑帶綠 #1C2620</span>
+      <span class="sw"><i style="background:#7b6bd6"></i>記憶紫 #7B6BD6</span>
+    </div>
+    <div class="cbox" id="prefixText">請畫一張正方形（1:1）的圖片，風格如下：
+
+乾淨現代的扁平插畫風格（flat illustration），溫暖親切的生活感。造型柔和圓潤，線條簡潔。
+主色使用 LINE 綠 #06C755 作為重點色，背景為暖米白 #F6F4EE。
+自然柔和的光線，溫馨、好親近、令人放鬆的氛圍。
+畫面簡約不雜亂，構圖留有大量負空間（negative space），方便之後疊加文字。
+【重要】畫面中絕對不要出現任何文字、字母或數字。
+
+情境內容如下：
+（→ 在這裡貼上下方各篇的情境描述）<button class="copybtn" data-copy="#prefixText">複製</button></div>
+  </section>
+
+  <!-- ============ WEEK 1 ============ -->
+  <h2 class="week">第 1 週 · 開帳暖身</h2>
+  <div class="grid">
+
+    <details class="post p-green" open>
+      <summary>
+        <span class="num">01</span>
+        <p class="p-title">你好，我是小路</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">品牌介紹</span><span class="tag t-warn">先生這張！吉祥物定裝</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p01">一個可愛友善的綠色機器人吉祥物「小路」，正微笑著揮手打招呼。它有著圓潤柔和的身體、大而溫柔的眼睛，整體configuration簡潔討喜。它坐在一個大大的、白色的手機對話泡泡裡面，泡泡邊緣圓潤。背景是乾淨的暖米白色，四周留有充足空白。整體氣氛開朗、歡迎、值得信賴。<button class="copybtn" data-copy="#p01">複製</button></p>
+        <div class="note warn"><span>🔑</span><div><b>務必先做這張：</b>這是小路的「吉祥物定裝照」。生出滿意的版本後，把這張圖存起來，之後每一張圖都把它一起上傳給 ChatGPT，說「請維持這個角色的外觀」，18 張圖的角色才會長一樣。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">02</span>
+        <p class="p-title">下班好累，晚餐吃什麼</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p02">傍晚的溫馨客廳裡，一位疲累的年輕上班族放鬆地窩在沙發上滑手機，肩膀鬆垮、姿態慵懶。旁邊有一盞散發柔和暖光的立燈。手機螢幕上方漂浮著幾個發光的美食小圖示（一碗拉麵、一個飯糰），像是給她的溫柔建議。畫面右側留有大片空白。氣氛溫暖、療癒、令人放鬆。<button class="copybtn" data-copy="#p02">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製：</b>這張只生「情境背景」。貼文裡的 LINE 對話（訂位、記得不吃香菜）請用 Canva 疊一張乾淨的對話圖卡，或直接用真實手機截圖。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">03</span>
+        <p class="p-title">你最想丟給 AI 的一件家事？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動投票</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p03">一個活潑簡潔的畫面：四個柔和的圓角方框整齊地漂浮排列在畫面中央，方框內部完全空白（保留給文字）。方框是淺綠色與奶油白交錯，帶有柔和的陰影，看起來輕盈、可愛。背景是乾淨的暖米白，四周有幾個小小的裝飾星點。整體是愉快、邀請人參與的問答氛圍。<button class="copybtn" data-copy="#p03">複製</button></p>
+        <div class="note"><span>💡</span><div><b>後製提醒：</b>四個空框正好對應貼文的四個選項，用 Canva 把選項文字填進去即可。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">04</span>
+        <p class="p-title">隱藏技能：記帳不用開 App</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p04">一隻手輕鬆地拿著一支手機，手機螢幕裡飄出幾個可愛的小圖示：金色硬幣、一張小收據、一個小計算機符號，它們輕盈地漂浮在空中。極簡的理財主題，畫面乾淨，硬幣以暖金色點綴，主色調維持綠色與米白。上方留有大片空白。氣氛輕鬆、毫不費力、令人安心。<button class="copybtn" data-copy="#p04">複製</button></p>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 2 ============ -->
+  <h2 class="week">第 2 週 · 展開廣度</h2>
+  <div class="grid">
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">05</span>
+        <p class="p-title">隔了半年，它還記得你</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p05">一幅抽象而溫柔的插畫：一顆溫暖發光的心，向後延伸出一條細長柔和的光線，光線像時間軸般蜿蜒，沿途散落著幾顆微小的記憶光點。色調使用柔和的紫色（#7B6BD6）與綠色漸層交融，帶著夢幻的光暈。背景深邃但溫暖，不使用純黑。整體氣氛細膩、動人、帶著被珍惜的溫柔感。<button class="copybtn" data-copy="#p05">複製</button></p>
+        <div class="note"><span>💜</span><div><b>色彩例外：</b>這張與第 11、16 篇是「記憶主題」，刻意加入記憶紫（#7B6BD6）與綠色交融，讓情感篇有辨識度。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">06</span>
+        <p class="p-title">一句話查股價</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p06">一支手機立在乾淨的桌面上，螢幕顯示一條簡潔上揚的折線圖，搭配一個明顯的綠色向上箭頭。旁邊漂浮著幾個極簡的小圖示（一個貨幣符號、一個小圖表）。整體是乾淨、專業卻不冰冷的金融儀表板風格，配色以綠色與暖米白為主。畫面上半部留白。氣氛清晰、可信賴、輕鬆掌握。<button class="copybtn" data-copy="#p06">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b></div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">07</span>
+        <p class="p-title">幫全家搞定週末</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p07">一個晴朗的公園場景：一對年輕父母帶著一個小孩，開心地準備出遊，手上拿著野餐籃，孩子在前方雀躍地跑著。陽光溫暖灑落，草地翠綠，天空明亮。遠處有簡潔的樹木與捷運站的抽象剪影。畫面上方大片留白給天空。整體氣氛歡樂、輕鬆、充滿家庭幸福感。<button class="copybtn" data-copy="#p07">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b></div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">08</span>
+        <p class="p-title">幫小路取個綽號？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動社群</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p08">綠色機器人吉祥物「小路」的可愛特寫。它微微歪著頭，露出害羞又開心的表情，臉頰帶著淡淡的紅暈，雙手在身前輕輕交握。它的頭頂上方漂浮著一個完全空白的白色對話泡泡（不要有任何文字）。背景是乾淨的暖米白，散落幾個小小的愛心與星點。整體超級可愛、討喜、惹人憐愛。<button class="copybtn" data-copy="#p08">複製</button></p>
+        <div class="note"><span>🔑</span><div><b>記得上傳第 01 張定裝照</b>當角色參考，小路的長相才會一致。</div></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 3 ============ -->
+  <h2 class="week">第 3 週 · 場景深化</h2>
+  <div class="grid">
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">09</span>
+        <p class="p-title">把小路拉進家庭群組</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">生活情境</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p09">畫面分成左右兩邊，中間以一條柔和的綠色光帶連接：左邊是一位白髮的年長母親，坐在家中沙發上，微笑地看著手機；右邊是她的成年女兒，在辦公室裡也帶著溫柔的笑意看著手機。兩人之間透過一個大大的、溫暖的對話泡泡形狀連結在一起。光線柔和溫馨。整體氣氛動人、有牽掛、充滿親情。<button class="copybtn" data-copy="#p09">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b>這篇是孝親訴求，情感濃度最高，圖要溫暖不要煽情。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">10</span>
+        <p class="p-title">5 分鐘生一份簡報</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p10">一張乾淨整潔的辦公桌俯視角：一台打開的筆記型電腦，螢幕上顯示著五張排列整齊的空白投影片縮圖（純色塊，不要有文字）。桌上有一杯咖啡、一支筆，擺放井然有序。晨光從左側斜射進來，在桌面留下柔和的光影。整體氣氛專業、高效率、從容不迫。<button class="copybtn" data-copy="#p10">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b>刻意要求投影片縮圖是「純色塊」，避免 AI 亂生文字。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">11</span>
+        <p class="p-title">它記得你不是為了推銷</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p11">一幅溫暖的抽象插畫：一個人的柔和剪影靜靜站立，四周輕輕漂浮著許多半透明的圓形記憶泡泡，每個泡泡裡隱約有一點微光。泡泡如同被珍藏的片段，緩緩環繞著他。色調是柔和的紫色（#7B6BD6）與綠色交融的漸層，光線溫柔。整體氣氛療癒、寧靜、被理解、被珍惜。<button class="copybtn" data-copy="#p11">複製</button></p>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">12</span>
+        <p class="p-title">徵集你的「小路時刻」</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動 UGC</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p12">一個明亮愉快的畫面：畫面正中央有一個大大的、乾淨的白色對話泡泡，內部完全空白（保留給文字）。泡泡四周散落著閃亮的小星點與幾個小小的愛心，像是大家的聲音正在匯集過來。背景是清爽的淺綠與暖米白漸層。整體氣氛開放、歡迎分享、充滿社群的溫度。<button class="copybtn" data-copy="#p12">複製</button></p>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- ============ WEEK 4 ============ -->
+  <h2 class="week">第 4 週 · 收斂轉換</h2>
+  <div class="grid">
+
+    <details class="post p-amber">
+      <summary>
+        <span class="num">13</span>
+        <p class="p-title">月底了，你的錢花去哪了？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">節慶借勢</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p13">畫面中央是一個簡潔優雅的甜甜圈環形圖（donut chart），由不同深淺的綠色與暖金色扇形組成，環的周圍散落著幾枚小巧的金幣。環形圖中心留空。背景是乾淨的暖米白，畫面下方留有大片空白。氣氛沉靜、清晰、有條理，像是月底靜下心來檢視生活的時刻。切記不要有任何文字或數字。<button class="copybtn" data-copy="#p13">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b>圖表的百分比數字也請用 Canva 疊，AI 生的數字必定是亂的。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-sky">
+      <summary>
+        <span class="num">14</span>
+        <p class="p-title">塔羅、星座、每日靈修</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">功能開箱</span><span class="tag t-warn">對話框後製</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p14">一個神祕卻溫柔的夜晚場景：三張塔羅牌以扇形優雅地攤開（牌面是簡潔的抽象圖騰，不要有文字），旁邊漂浮著細緻的星星、一彎月牙。背景是柔和的深藍紫夜色漸層，帶有一絲淡淡的綠色微光作為呼應。整體氣氛夢幻、靜謐、療癒，帶著儀式感，而非陰森詭譎。<button class="copybtn" data-copy="#p14">複製</button></p>
+        <div class="note warn"><span>✂️</span><div><b>對話框請後製。</b>這張是全系列唯一的暗色調，刻意用來凸顯「命理／夜晚儀式感」。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">15</span>
+        <p class="p-title">加好友只要 30 秒</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">導流教學</span><span class="tag t-warn">最重要的一張</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p15">一張極簡乾淨的教學資訊圖：三個等大的綠色圓形，由左至右水平排列，圓形內部空白（保留給數字 1、2、3）。三個圓形之間以柔和的虛線箭頭連接。畫面下方有一支手機的簡潔線條插圖，手機旁有一個乾淨的 QR Code 方框圖示（不要有真的 QR 圖案，只要空白方框）。背景暖米白，構圖清爽對稱。氣氛清楚、簡單、毫無門檻。<button class="copybtn" data-copy="#p15">複製</button></p>
+        <div class="note warn"><span>📌</span><div><b>這張最重要。</b>它是轉換臨門一腳，建議設為粉專置頂，也最適合拿去投廣告。做完後把真實的 QR Code 疊上去。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-violet">
+      <summary>
+        <span class="num">16</span>
+        <p class="p-title">用戶真實回饋</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">記憶感動 · 見證</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p16">一張溫暖的見證卡版面：畫面中央偏上有一個大大的、柔和的引號符號（“），下方留有大片空白區域準備放引言文字。左下角有一位母親牽著小女兒的柔和剪影，溫馨自然。背景是柔和的紫綠漸層過渡到暖米白。整體氣氛真摯、可信賴、令人動容，不誇張不煽情。<button class="copybtn" data-copy="#p16">複製</button></p>
+        <div class="note"><span>♻️</span><div><b>素材來源：</b>引言文字建議直接用第 12 篇 UGC 徵集到的真實用戶留言，最有說服力。</div></div>
+      </div></div>
+    </details>
+
+    <details class="post p-rose">
+      <summary>
+        <span class="num">17</span>
+        <p class="p-title">下個月想看小路示範什麼？</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">互動投票</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p17">一個充滿活力的投票畫面：四個柔和的圓角橫條，由上而下整齊排列，每一條的左側有一個空白的圓形（保留給 emoji），右側大片留白（保留給文字）。橫條使用淺綠、奶油白、淡粉交錯的柔和色。背景乾淨明亮，四周飄著幾個小小的彩色紙屑。整體氣氛有趣、活潑、邀請大家一起玩。<button class="copybtn" data-copy="#p17">複製</button></p>
+      </div></div>
+    </details>
+
+    <details class="post p-green">
+      <summary>
+        <span class="num">18</span>
+        <p class="p-title">這個月，小路陪你做了這些事</p>
+        <span class="caret">▸</span>
+        <span class="p-sub"><span class="tag">月度回顧</span></span>
+      </summary>
+      <div class="body"><div class="inner">
+        <p class="label">情境指令</p>
+        <p class="lbox" id="p18">綠色機器人吉祥物「小路」站在畫面正中央，微笑張開雙臂。它的四周以圓形環繞著多個可愛的小圖示：一碗熱食、一枚金幣、一本日曆、一顆愛心、一張小圖表、一張塔羅牌、一列小火車。這些圖示如同拼貼般溫暖地圍繞著它。背景暖米白，色調統一柔和。整體氣氛溫馨、豐盛、充滿陪伴一個月的回顧感。<button class="copybtn" data-copy="#p18">複製</button></p>
+        <div class="note"><span>🔑</span><div><b>記得上傳第 01 張定裝照</b>當角色參考。這張是月度收尾，小路的形象要跟第 1 篇首尾呼應。</div></div>
+      </div></div>
+    </details>
+  </div>
+
+  <!-- TIPS -->
+  <section class="tips">
+    <h3>🛠 讓 18 張圖真的像一個系列的 5 個訣竅</h3>
+    <ol>
+      <li><b>先做吉祥物定裝照（第 01 篇）。</b>生出滿意的小路後存檔，之後每次生圖都把那張圖一起上傳給 ChatGPT，說「請維持這個角色的外觀與風格」。這是角色一致性的唯一解法。</li>
+      <li><b>每次都貼上「品牌風格前綴」。</b>不要偷懶只貼情境描述，前綴才是統一畫風的關鍵。開一個新對話時尤其要記得。</li>
+      <li><b>永遠不要讓 AI 生中文字。</b>指令裡已寫明「不要出現文字」。標題、選項、數字全部用 Canva 後製疊上去，這樣才乾淨、可控、也好改。</li>
+      <li><b>尺寸統一 1:1（1080×1080）。</b>FB 與 IG 貼文通吃。在 ChatGPT 裡直接說「正方形」即可，指令開頭已經寫進去了。</li>
+      <li><b>不滿意就追加修改，不要重生。</b>直接接著說「把背景再亮一點」「小路的表情再開心一些」「留白再多一點」，比重新下指令更快也更一致。</li>
+    </ol>
+  </section>
+
+  <footer>
+    小路 Zumii · 18 篇配圖 AI 生成指令集　|　適用 ChatGPT / DALL·E　|　搭配 <a href="index.html">首月發文行事曆</a> 一起使用<br>
+    所有指令均要求「畫面不含文字」，標題文案請以 Canva 後製疊加，確保中文正確且風格統一。
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.copybtn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var sel = btn.getAttribute('data-copy');
+      var el = document.querySelector(sel);
+      if(!el) return;
+      // 取文字時排除按鈕本身的「複製」字樣
+      var clone = el.cloneNode(true);
+      var b = clone.querySelector('.copybtn');
+      if(b) b.remove();
+      var text = clone.textContent.trim();
+      navigator.clipboard.writeText(text).then(function(){
+        var old = btn.textContent;
+        btn.textContent = '已複製 ✓';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1600);
+      }).catch(function(){
+        btn.textContent = '請手動複製';
+        setTimeout(function(){ btn.textContent = '複製'; }, 1600);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -35,6 +35,13 @@
   }
   .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
 
+  /* nav */
+  .nav{padding:18px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .nav a{text-decoration:none;font-size:13.5px;font-weight:600;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft)}
+  .nav a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .nav a:hover:not(.on){border-color:var(--green);color:var(--green-deep)}
+  .nav a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
   /* header */
   header{padding:56px 0 34px;border-bottom:1px solid var(--line)}
   .eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--green-deep);font-weight:700;margin:0 0 14px}
@@ -109,6 +116,11 @@
 </style>
 
 <div class="wrap">
+  <nav class="nav" aria-label="頁面切換">
+    <a href="index.html" class="on" aria-current="page">📅 首月發文行事曆</a>
+    <a href="prompts.html">🎨 配圖 AI 指令集</a>
+  </nav>
+
   <header>
     <p class="eyebrow">FB 粉專內容企劃 · 首月</p>
     <h1>小路 <span class="accent">Zumii</span> 的生活實驗室<br>第一個月發文行事曆</h1>
