@@ -8,23 +8,23 @@
 <body>
 <style>
   :root{
-    /* palette — LINE 綠為主軸，偏暖的中性色，非純灰 */
-    --ink:#1c2620;          /* 近黑帶綠 */
-    --ink-soft:#41504a;
-    --paper:#f6f4ee;        /* 暖白 */
+    /* palette — 對齊 zumii 品牌：深藍主色、冷灰白底、霓虹點綴 */
+    --ink:#1a2340;          /* 深藍近黑 */
+    --ink-soft:#5a6478;     /* 冷灰藍 */
+    --paper:#eef1f5;        /* 冷灰白底（同 logo 背景調） */
     --card:#ffffff;
-    --line:#e2ded3;         /* 暖灰線 */
-    --green:#06c755;        /* LINE 綠 */
-    --green-deep:#04963f;
-    --green-wash:#e8f8ee;
-    --amber:#e8a13a;        /* 借勢/節慶 */
-    --amber-wash:#fbf1df;
-    --violet:#7b6bd6;       /* 記憶/情感 */
-    --violet-wash:#eeebfa;
-    --sky:#3a95c9;          /* 功能開箱 */
-    --sky-wash:#e4f1f8;
-    --rose:#d96a8a;         /* 互動社群 */
-    --rose-wash:#f9e8ee;
+    --line:#dde2ea;         /* 冷灰線 */
+    --green:#1b2a5b;        /* 主色＝品牌深藍（沿用 --green 變數名，值改為 navy） */
+    --green-deep:#132049;   /* 更深的藍 */
+    --green-wash:#e7ebf5;   /* 淡藍底 */
+    --amber:#f5a623;        /* 橘金＝logo 眼睛/Z 光，用於 CTA 強調 */
+    --amber-wash:#fdf1dc;
+    --violet:#8b6be0;       /* 霓虹紫＝記憶/情感 */
+    --violet-wash:#efeafb;
+    --sky:#3da9e0;          /* 冰藍＝logo 天線光，功能開箱 */
+    --sky-wash:#e3f2fb;
+    --rose:#e0699a;         /* 霓虹粉＝互動社群 */
+    --rose-wash:#fbe9f1;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -85,10 +85,10 @@
   .body .inner{border-top:1px dashed var(--line);padding-top:18px}
   .label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--pillar);margin:0 0 8px}
   .copy{white-space:pre-wrap;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.75;margin:0 0 18px}
-  .copy .cta{color:var(--green-deep);font-weight:700}
+  .copy .cta{color:#c67d0e;font-weight:700}
 
   /* chat mock */
-  .chat{background:#8fb8d8;background:linear-gradient(180deg,#a9cae6,#8fb8d8);border-radius:12px;padding:16px 14px;margin:0 0 18px;display:flex;flex-direction:column;gap:9px}
+  .chat{background:#c9d3e6;background:linear-gradient(180deg,#d5deec,#c2cde3);border-radius:12px;padding:16px 14px;margin:0 0 18px;display:flex;flex-direction:column;gap:9px}
   .bub{max-width:78%;padding:9px 13px;border-radius:15px;font-size:14px;line-height:1.55;box-shadow:0 1px 1px rgba(0,0,0,.08)}
   .bub.me{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
   .bub.z{align-self:flex-start;background:#fff;color:var(--ink);border-bottom-left-radius:4px}
@@ -338,7 +338,7 @@
 你只要負責——陪家人玩得開心就好。
 
 生活裡的雜事交給小路，
-把時間留給真正重要的人 💚
+把時間留給真正重要的人 💙
 
 <span class="cta">👉 加 LINE 好友，週末不再滑手機找攻略：https://zumii.ai</span></div>
         <div class="why"><span>💡</span><div><b>為什麼這樣寫：</b>週五晚上發「規劃週末」情境，貼合當下心境（時機行銷）。訴求「把時間留給家人」，把工具價值上升到情感層次。</div></div>
