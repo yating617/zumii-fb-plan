@@ -159,7 +159,7 @@
   <!-- STYLE PREFIX -->
   <section class="prefix">
     <h2>🧬 品牌風格前綴（每一張都要加在最前面）</h2>
-    <p class="sub">這是讓 18 張圖「長得像一家人」的關鍵。<b>每次生圖都先貼這段，再接下方各篇的情境描述。</b></p>
+    <p class="sub">這是讓 18 張圖「長得像一家人」的關鍵。<b>貼心設計：下方各篇的「複製」鈕已自動把這段前綴＋該篇情境接成完整指令，按一下就能直接貼進 ChatGPT，不用自己拼。</b>（這裡的前綴僅供你參考或單獨複製用。）</p>
     <div class="swatches" aria-label="品牌色票">
       <span class="sw"><i style="background:#fdf6ee"></i>暖白底 #FDF6EE</span>
       <span class="sw"><i style="background:#f5a623"></i>橘金光 #F5A623</span>
@@ -468,25 +468,45 @@
 </div>
 
 <script>
+  // 抽出某元素的純文字（排除內部的「複製」按鈕字樣）
+  function pureText(el){
+    var clone = el.cloneNode(true);
+    var b = clone.querySelector('.copybtn');
+    if(b) b.remove();
+    return clone.textContent.trim();
+  }
+
+  // 風格前綴的純文字（去掉最後那行提示，改成正式接續）
+  function prefixText(){
+    var raw = pureText(document.getElementById('prefixText'));
+    // 移除「（→ 在這裡貼上下方各篇的情境描述）」這行提示
+    return raw.replace(/（→[^）]*）\s*$/, '').trim();
+  }
+
   document.querySelectorAll('.copybtn').forEach(function(btn){
     btn.addEventListener('click', function(e){
       e.preventDefault();
       var sel = btn.getAttribute('data-copy');
       var el = document.querySelector(sel);
       if(!el) return;
-      // 取文字時排除按鈕本身的「複製」字樣
-      var clone = el.cloneNode(true);
-      var b = clone.querySelector('.copybtn');
-      if(b) b.remove();
-      var text = clone.textContent.trim();
+
+      var text;
+      if(sel === '#prefixText'){
+        // 前綴本身：照原樣複製
+        text = pureText(el);
+      } else {
+        // 各篇：自動把「風格前綴 + 本篇情境」接成完整指令
+        text = prefixText() + '\n\n' + pureText(el);
+      }
+
       navigator.clipboard.writeText(text).then(function(){
         var old = btn.textContent;
-        btn.textContent = '已複製 ✓';
+        btn.textContent = '已複製完整指令 ✓';
         btn.classList.add('done');
-        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1600);
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1800);
       }).catch(function(){
         btn.textContent = '請手動複製';
-        setTimeout(function(){ btn.textContent = '複製'; }, 1600);
+        setTimeout(function(){ btn.textContent = '複製'; }, 1800);
       });
     });
   });
